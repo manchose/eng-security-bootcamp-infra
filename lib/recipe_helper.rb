@@ -6,6 +6,10 @@ module ::RecipeHelper
       init_properties
     end
 
+    def top_dir
+      @top_dir ||= File.expand_path('../..', __FILE__)
+    end
+
     def node
       @context.node
     end
@@ -20,6 +24,12 @@ module ::RecipeHelper
     end
 
     def init_properties
+      files = [
+        File.join(top_dir, 'properties', 'environments', "#{node[:environment]}.yml"),
+        *node[:roles].map {|r| File.join(top_dir, 'properties', 'roles', "#{r}.yml") },
+        File.join(top_dir, 'properties', 'nodes', "#{node[:host]}.yml")
+      ].select { |fn| File.file?(fn) }
+      p files
     end
   end
 end
@@ -38,7 +48,7 @@ class MItamae::RecipeContext
   end
 
   def top_dir
-    @top_dir ||= File.expand_path('../..', __FILE__)
+    ::RecipeHelper.top_dir
   end
 end
 
