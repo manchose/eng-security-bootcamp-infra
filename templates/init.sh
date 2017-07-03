@@ -8,8 +8,9 @@ chmod 600 /home/infra/.ssh/authorized_keys
 chown -R infra:infra /home/infra/.ssh
 
 cat <<SUDO > /etc/sudoers.d/infra
-Defaults:%wheel !requiretty
-Defaults:%wheel env_keep += SSH_AUTH_SOCK
+Defaults:%infra !requiretty
+Defaults:%infra env_keep += SSH_AUTH_SOCK
+Defaults:%infra env_keep += "MITAMAE_ENVIRONMENT MITAMAE_ROLES MITAMAE_HOST MITAMAE_TEAM_NO"
 
 %infra ALL=(ALL) NOPASSWD: ALL
 SUDO
