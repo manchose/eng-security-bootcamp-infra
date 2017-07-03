@@ -1,17 +1,18 @@
 ---
-users:
-  app-000: [mrkn, nishimunea, yonashiro, katsuya, shimizu]
-  # A: app-001
-  # B: app-002
-  # C: app-003
-  # D: app-004
-  # E: app-005
-  # F: app-006
-  # G: app-007
-  # H: app-008
-  # I: app-009
-  # J: app-010
-  # K: app-011
-  # L: app-012
-  # M: app-013
-  # N: app-014
+attributes:
+  users:
+    app-000: [mrkn, nishimunea, yonashiro, katsuya, shimizu]
+    app-001: []
+    app-002: []
+    app-003: []
+    app-004: []
+    app-005: []
+    app-006: []
+    app-007: []
+    app-008: []
+    app-009: []
+    app-010: []
+    app-011: []
+    app-012: []
+    app-013: []
+    app-014: []

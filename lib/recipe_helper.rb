@@ -4,6 +4,7 @@ module ::RecipeHelper
       @context = context
       init_node
       init_properties
+      init_users
     end
 
     def top_dir
@@ -38,6 +39,26 @@ module ::RecipeHelper
         File.join(top_dir, 'properties', 'nodes', "#{node[:host]}.yml")
       ]
       files.select {|fn| File.file?(fn) }
+    end
+
+    def init_users
+      users = Hashie::Mash.new
+      Dir.glob(File.join(top_dir, 'users', '*.yml')).each do |user_file|
+        user_info = Hashie::Mash.new(YAML.load(IO.read(user_file)))
+        username = user_info[:name]
+
+        user_info[:uid] = node[:uid_map][username]
+        unless user_info[:uid]
+          raise "UID for #{username} is not specified in `node[:uid_map]`."
+        end
+
+        user_info[:shell] ||= '/bin/bash'
+        user_info[:home_directory]  ||= "/home/#{username}"
+        user_info[:create_home] = true if user_info[:create_home].nil?
+
+        users[username] = user_info
+      end
+      node[:users] = users
     end
   end
 end
