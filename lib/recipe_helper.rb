@@ -24,12 +24,20 @@ module ::RecipeHelper
     end
 
     def init_properties
+      properties = Hashie::Mash.new
+      property_files.each do |property_file|
+        properties.deep_merge!(YAML.load(IO.read(property_file)))
+      end
+      node.merge!(properties)
+    end
+
+    def property_files
       files = [
         File.join(top_dir, 'properties', 'environments', "#{node[:environment]}.yml"),
         *node[:roles].map {|r| File.join(top_dir, 'properties', 'roles', "#{r}.yml") },
         File.join(top_dir, 'properties', 'nodes', "#{node[:host]}.yml")
-      ].select { |fn| File.file?(fn) }
-      p files
+      ]
+      files.select {|fn| File.file?(fn) }
     end
   end
 end
