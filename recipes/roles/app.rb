@@ -1,1 +1,1 @@
-p node.to_hash
+include_middleware 'users_on_app_role'
